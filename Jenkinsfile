@@ -41,17 +41,18 @@ pipeline {
             }
         }
 
-        stage('Push Docker Image') {
-            steps {
-                withCredentials([string(credentialsId: 'dockerhub-pass', variable: 'PASS')]) {
-                    sh '''
-                    echo $PASS | docker login -u sunardock --Sunar@#doc123-stdin
-                    docker push $DOCKER_IMAGE:$DOCKER_TAG
-                    docker push $DOCKER_IMAGE:latest
-                    '''
-                }
-            }
+       stage('Push to Docker Hub') {
+    steps {
+        withCredentials([usernamePassword(
+            credentialsId: 'dockerhub-creds',
+            usernameVariable: 'USER',
+            passwordVariable: 'PASS'
+        )]) {
+            sh 'echo $PASS | docker login -u $USER --password-stdin'
+            sh 'docker push $DOCKER_HUB/$BACKEND_IMAGE'
         }
+    }
+}
 
         stage('Deploy Container') {
             steps {
