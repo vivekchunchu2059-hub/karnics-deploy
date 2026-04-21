@@ -45,7 +45,7 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'dockerhub-pass', variable: 'PASS')]) {
                     sh '''
-                    echo $PASS | docker login -u vivekchunchu --password-stdin
+                    echo $PASS | docker login -u sunardock --Sunar@#doc123-stdin
                     docker push $DOCKER_IMAGE:$DOCKER_TAG
                     docker push $DOCKER_IMAGE:latest
                     '''
