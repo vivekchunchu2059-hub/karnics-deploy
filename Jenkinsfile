@@ -41,18 +41,21 @@ pipeline {
             }
         }
 
-       stage('Push to Docker Hub') {
-    steps {
-        withCredentials([usernamePassword(
-            credentialsId: 'dockerhub-creds',
-            usernameVariable: 'USER',
-            passwordVariable: 'PASS'
-        )]) {
-            sh 'echo $PASS | docker login -u $USER --password-stdin'
-            sh 'docker push $DOCKER_HUB/$BACKEND_IMAGE'
+        stage('Push to Docker Hub') {
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerhub-creds',
+                    usernameVariable: 'USER',
+                    passwordVariable: 'PASS'
+                )]) {
+                    sh '''
+                    echo $PASS | docker login -u $USER --password-stdin
+                    docker push $DOCKER_IMAGE:$DOCKER_TAG
+                    docker push $DOCKER_IMAGE:latest
+                    '''
+                }
+            }
         }
-    }
-}
 
         stage('Deploy Container') {
             steps {
@@ -74,3 +77,4 @@ pipeline {
         }
     }
 }
+       
