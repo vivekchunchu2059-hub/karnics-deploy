@@ -1,0 +1,14 @@
+.add-product-button {
+  background-color: #2e2d47;
+  color: #ffffff;
+  text-transform: none;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 20px;
+  border-radius: 6px;
+  height: 40px;
+
+  &:hover {
+    background-color: #3a3855;
+  }
+}
