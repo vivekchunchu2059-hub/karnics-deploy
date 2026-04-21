@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_IMAGE = "vivekchunchu/karnics-deploy"
         DOCKER_TAG = "${BUILD_NUMBER}"
-        SONARQUBE_ENV = "SonarQubeServer"
+        SONARQUBE_ENV = "MySonar"
     }
 
     stages {
