@@ -9,12 +9,6 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/vivekchunchu2059-hub/karnics-deploy.git'
-            }
-        }
-
         stage('Install Dependencies') {
             steps {
                 sh 'npm install'
