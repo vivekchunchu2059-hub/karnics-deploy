@@ -24,7 +24,12 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv("${SONARQUBE_ENV}") {
-                    sh 'sonar-scanner'
+                    sh '''
+            sonar-scanner \
+            -Dsonar.projectKey=karnics-deploy \
+            -Dsonar.projectName=karnics-deploy \
+            -Dsonar.sources=src
+            '''
                 }
             }
         }
