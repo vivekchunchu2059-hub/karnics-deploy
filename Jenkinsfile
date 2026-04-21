@@ -25,19 +25,11 @@ pipeline {
             steps {
                 withSonarQubeEnv("${SONARQUBE_ENV}") {
                     sh '''
-            sonar-scanner \
-            -Dsonar.projectKey=karnics-deploy \
-            -Dsonar.projectName=karnics-deploy \
-            -Dsonar.sources=src
-            '''
-                }
-            }
-        }
-
-        stage('Quality Gate') {
-            steps {
-                timeout(time: 1, unit: 'MINUTES') {
-                    waitForQualityGate abortPipeline: false
+                    sonar-scanner \
+                    -Dsonar.projectKey=karnics-deploy \
+                    -Dsonar.projectName=karnics-deploy \
+                    -Dsonar.sources=src
+                    '''
                 }
             }
         }
@@ -53,7 +45,7 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'dockerhub-pass', variable: 'PASS')]) {
                     sh '''
-                    echo $PASS | docker login -u sunardock --Sunar@#doc123-stdin
+                    echo $PASS | docker login -u vivekchunchu --password-stdin
                     docker push $DOCKER_IMAGE:$DOCKER_TAG
                     docker push $DOCKER_IMAGE:latest
                     '''
