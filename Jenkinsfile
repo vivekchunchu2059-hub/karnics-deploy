@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "vivekchunchu/karnics-deploy"
+        DOCKER_IMAGE = "sunardock/karnics-deploy"
         DOCKER_TAG = "${BUILD_NUMBER}"
         SONARQUBE_ENV = "MySonar"
     }
@@ -44,15 +44,16 @@ pipeline {
         stage('Push to Docker Hub') {
             steps {
                 withCredentials([usernamePassword(
-                    credentialsId: 'dockerhub-creds',
-                    usernameVariable: 'USER',
-                    passwordVariable: 'PASS'
-                )]) {
-                    sh '''
-                    echo $PASS | docker login -u $USER --password-stdin
-                    docker push $DOCKER_IMAGE:$DOCKER_TAG
-                    docker push $DOCKER_IMAGE:latest
-                    '''
+    credentialsId: 'dockerhub-creds',
+    usernameVariable: 'USER',
+    passwordVariable: 'PASS'
+)]) {
+    sh """
+    echo ${PASS} | docker login -u ${USER} --password-stdin
+    docker push ${DOCKER_IMAGE}:${DOCKER_TAG}
+    docker push ${DOCKER_IMAGE}:latest
+    """
+}
                 }
             }
         }
